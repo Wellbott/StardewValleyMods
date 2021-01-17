@@ -1,0 +1,17 @@
+{
+ "Format": "1.18",
+ "Changes": [
+       {
+			"Action": "Load",
+			"Target": "Buildings/Slime Hutch",
+			"FromFile": "assets/Slime Hutch.png"
+       },
+       {
+			"Action": "EditData",
+			"Target": "Data/Blueprints",
+			"Fields": {
+				"Slime Hutch": { 1:"7", 2:"4", 3:"3", 4:"3" }
+			}
+       }
+    ] 
+}
