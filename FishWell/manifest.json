@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Fish Well",
   "Author": "Peasly Wellbott",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Description": "Adds a smaller Fish Pond variant.",
   "UniqueID": "Wellbott.FishWell",
   "EntryDll": "FishWell.dll",
