@@ -172,7 +172,7 @@ namespace FishWellSpace
                 
                 foreach (Building building in Game1.getFarm().buildings)
                 {
-                    if (building.buildingType.Value == "Fish Pond" && building.tilesWide.Value == 3)
+                    if (building.buildingType.Value == "Fish Pond")
                     {
                         tilesWithPonds.Add(new Vector2(building.tileX, building.tileY));
                     }
@@ -257,8 +257,8 @@ namespace FishWellSpace
             FishPond NewPond = new FishPond(new BluePrint("Fish Pond"), Vector2.Zero);
             this.Monitor.Log($"Well -> Pond conversion at {pondTile}.", LogLevel.Trace);
             ReplacePondData(oldWell, NewPond);
-            NewPond.tilesWide.Value = 3;
-            NewPond.tilesHigh.Value = 3;
+            NewPond.tilesWide.Value = 5;
+            NewPond.tilesHigh.Value = 5;
             bool destroyed = farm.destroyStructure(oldWell);
             bool built = farm.buildStructure(NewPond, pondTile, Game1.player, true);
             NewPond.performActionOnBuildingPlacement();
