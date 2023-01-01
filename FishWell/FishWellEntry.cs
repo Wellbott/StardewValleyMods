@@ -289,6 +289,7 @@ namespace FishWellSpace
             toPond.seedOffset.Value = fromPond.seedOffset.Value;
             toPond.hasSpawnedFish.Value = fromPond.hasSpawnedFish.Value;
             toPond.maxOccupants.Value = fromPond.maxOccupants;
+            toPond.modData = fromPond.modData;
         }
     }
 }
