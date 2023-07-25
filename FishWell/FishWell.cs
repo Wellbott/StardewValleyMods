@@ -12,7 +12,7 @@ namespace FishWellSpace
     {
         public float border_width = 0.8f;
         public List<WellFishSilhouette> _wellSilhouettes;
-        public FishWellConfig Config;
+        public static FishWellConfig Config;
 
         /// <summary>
         /// Consttructors
@@ -179,7 +179,7 @@ namespace FishWellSpace
                 return (WellFishSilhouette)pFish;
             }
             else
-            return new WellFishSilhouette(this, border_width);
+                return new WellFishSilhouette(this, border_width);
         }
 
         public new void UpdateMaximumOccupancy()
@@ -221,11 +221,11 @@ namespace FishWellSpace
             fish_silhouette = Utility.GetRandom(_wellSilhouettes);
             _wellSilhouettes.Remove(fish_silhouette);
             _fishSilhouettes.RemoveAt(0);
-            _jumpingFish.Add(new JumpingFish(this, 
+            _jumpingFish.Add(new JumpingFish(this,
                 fish_silhouette.position,
                 new Vector2(
                     tileX.Value + Utility.Lerp(border_width + 0.2f, (float)tilesWide - border_width - 0.2f, (float)Game1.random.NextDouble()),
-                    tileY.Value + Utility.Lerp(border_width + 0.2f, (float)tilesHigh - border_width - 0.2f, (float)Game1.random.NextDouble())) *64f
+                    tileY.Value + Utility.Lerp(border_width + 0.2f, (float)tilesHigh - border_width - 0.2f, (float)Game1.random.NextDouble())) * 64f
                 ));
             return true;
         }

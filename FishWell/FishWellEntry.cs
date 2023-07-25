@@ -68,7 +68,7 @@ namespace FishWellSpace
                 else
                 {
                     data["Fish Well"] = "390 200 152 5 153 5/3/3/-1/-1/-2/-1/null/" + Helper.Translation.Get("fishWell.name") + "/" + Helper.Translation.Get("fishWell.descriptionFast") + "/Buildings/none/48/48/10/null/Farm/5000/false/2";
-                } 
+                }
             }
         }
 
@@ -112,7 +112,7 @@ namespace FishWellSpace
         {
             if (!Context.IsWorldReady)
                 return;
-            if (e.NewMenu is CarpenterMenu)
+            if (e.NewMenu is CarpenterMenu && !this.Helper.Reflection.GetField<bool>((object)(CarpenterMenu)e.NewMenu, "magicalConstruction", true).GetValue())
             {
                 this.Monitor.Log($"{wellBlueprint.displayName}.", LogLevel.Debug);
                 IList<BluePrint> blueprints = this.Helper.Reflection
@@ -164,12 +164,12 @@ namespace FishWellSpace
         /// <param name="e"></param>
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
+            FishWell.Config = Config;
             wellBlueprint = fishWellBlueprint();
             dummyFishWell = new FishWell(new BluePrint("Fish Well"), Vector2.Zero);
             List<Vector2> tilesWithPonds = new List<Vector2>();
             if (Context.IsMainPlayer)
             {
-                
                 foreach (Building building in Game1.getFarm().buildings)
                 {
                     if (building.buildingType.Value == "Fish Pond")
@@ -216,13 +216,12 @@ namespace FishWellSpace
                 if (carpenterMenu.CurrentBlueprint.displayName == Helper.Translation.Get("fishWell.name"))
                 {
                     Building building = this.Helper.Reflection.GetField<Building>(carpenterMenu, "currentBuilding").GetValue();
-                    Building cachedBuilding = building;
-                    Boolean cachedDrawBG = this.Helper.Reflection.GetField<Boolean>(carpenterMenu, "drawBG").GetValue();
-                    this.Helper.Reflection.GetField<Boolean>(carpenterMenu, "drawBG").SetValue(false);
+                    bool cachedDrawBG = this.Helper.Reflection.GetField<bool>(carpenterMenu, "drawBG").GetValue();
+                    this.Helper.Reflection.GetField<bool>(carpenterMenu, "drawBG").SetValue(false);
                     this.Helper.Reflection.GetField<Building>(carpenterMenu, "currentBuilding").SetValue(dummyFishWell);
                     carpenterMenu.draw(e.SpriteBatch);
-                    this.Helper.Reflection.GetField<Boolean>(carpenterMenu, "drawBG").SetValue(cachedDrawBG);
-                    this.Helper.Reflection.GetField<Building>(carpenterMenu, "currentBuilding").SetValue(cachedBuilding);
+                    this.Helper.Reflection.GetField<bool>(carpenterMenu, "drawBG").SetValue(cachedDrawBG);
+                    this.Helper.Reflection.GetField<Building>(carpenterMenu, "currentBuilding").SetValue(building);
                 }
             }
         }
@@ -238,7 +237,6 @@ namespace FishWellSpace
             FishWell NewWell = new FishWell(new BluePrint("Fish Well"), Vector2.Zero);
             this.Monitor.Log($"Pond -> Well conversion at {pondTile}.", LogLevel.Trace);
             ReplacePondData(oldPond, NewWell);
-            NewWell.Config = Config;
             bool destroyed = farm.destroyStructure(oldPond);
             bool built = farm.buildStructure(NewWell, pondTile, Game1.player, true);
             NewWell.performActionOnBuildingPlacement();
